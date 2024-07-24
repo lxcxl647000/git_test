@@ -7,23 +7,28 @@
 </template>
 
 <script setup lang="ts">
-  import axios from 'axios';
   import { ref } from 'vue';
+  import request from './utils/request';
+  import { ElMessage } from 'element-plus';
 
   let token = ref('');
 
-  async function testLogin() {
-    let { data: { code, data } } = await axios.post('/api/user/login', {
-      username: 'admin',
-      password: '111111',
+  function testLogin() {
+    request({
+      url: '/user/login',
+      method: 'post',
+      data: {
+        username: 'admin',
+        password: '111111'
+      }
+    }).then(data => {
+      let msg = '';
+      ElMessage({
+        type: 'success',
+        message: '登录成功！'
+      });
+      token.value = data.data.token;
     });
-    if (code === 200) {
-      alert('success login');
-      token.value = data.token;
-    }
-    else {
-      alert('fail login')
-    }
   }
 </script>
 
