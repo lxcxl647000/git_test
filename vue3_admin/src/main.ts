@@ -7,13 +7,16 @@ import 'virtual:svg-icons-register'
 import globalComponet from './index'
 import '@/styles/index.scss'
 import router from './router'
+import pinia from './store'
 
-const app = createApp(App)
+const app = createApp(App);
 app.use(ElementPlus, {
     locale: zhCn
-})
+});
 //安装自定义插件实现全局组件的引入
-app.use(globalComponet)
+app.use(globalComponet);
 // 注册路由//
 app.use(router);
-app.mount('#app')
+// 安装大仓库//
+app.use(pinia);
+app.mount('#app');

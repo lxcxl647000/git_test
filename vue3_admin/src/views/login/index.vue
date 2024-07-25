@@ -14,7 +14,8 @@
                             show-password></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button class="login_button" type="primary" size="default" @click="">登录</el-button>
+                        <el-button class="login_button" type="primary" size="default" @click="login"
+                            :loading="loading">登录</el-button>
                     </el-form-item>
 
                 </el-form>
@@ -25,13 +26,40 @@
 
 <script setup lang="ts">
     import type { ILogin } from '@/api/user/type';
-    import { User, Lock, View } from '@element-plus/icons-vue';
-    import { reactive } from 'vue';
+    import useUserStore from '@/store/modules/user';
+    import { User, Lock } from '@element-plus/icons-vue';
+    import { ElNotification } from 'element-plus';
+    import { reactive, ref } from 'vue';
+    import { useRouter } from 'vue-router';
+
+    let userStore = useUserStore();
+    let router = useRouter();
 
     let loginData = reactive<ILogin>({
         username: 'admin',
         password: '111111'
     });
+
+    let loading = ref(false);
+
+    async function login() {
+        loading.value = true;
+        try {
+            await userStore.userLogin(loginData);
+            ElNotification({
+                type: 'success',
+                message: '登录成功'
+            });
+            router.push('/');
+            loading.value = false;
+        } catch (error: any) {
+            ElNotification({
+                type: 'error',
+                message: error.message
+            });
+            loading.value = false;
+        }
+    }
 </script>
 
 <style scoped lang="scss">

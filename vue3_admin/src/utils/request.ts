@@ -15,16 +15,7 @@ request.interceptors.request.use((config) => {
 // 响应拦截器//
 request.interceptors.response.use(
     (response) => {
-        if (response.data.code === 200) {
-            return Promise.resolve(response.data);
-        }
-        else {
-            ElMessage({
-                type: "error",
-                message: response.data.data.message || '请求失败'
-            });
-            return Promise.reject(response);
-        }
+        return response.data;
     },
     (error) => {
         // 处理网络错误//
