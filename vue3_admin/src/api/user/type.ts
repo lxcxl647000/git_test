@@ -5,7 +5,8 @@ export interface ILogin {
 }
 
 export interface ILoginResponseData {
-    token: string,
+    token?: string,
+    message?: string,
 }
 
 /**登录返回数据 */
