@@ -24,7 +24,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="Login">
     import type { ILogin } from '@/api/user/type';
     import useUserStore from '@/store/modules/user';
     import { getCurrentTimeDes } from '@/utils/time';

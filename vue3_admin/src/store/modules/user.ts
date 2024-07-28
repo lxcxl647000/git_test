@@ -3,12 +3,14 @@ import type { ILogin, ILoginResponse } from "@/api/user/type";
 import { defineStore } from "pinia";
 import type { IUserState } from "./type/types";
 import { GET_TOKEN, SET_TOKEN } from "@/utils/token";
+import { constantRoute } from "@/router/routes";
 
 let useUserStore = defineStore('user', {
     state: (): IUserState => {
         return {
             // 用户唯一标识的token//
             token: GET_TOKEN(),
+            routes: constantRoute,
         }
     },
     actions: {
