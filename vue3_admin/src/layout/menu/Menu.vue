@@ -1,6 +1,6 @@
 <template>
     <el-scrollbar class="scrollbar">
-        <el-menu background-color="$base-menu-background" text-color="white">
+        <el-menu :default-active="$route.path" background-color="#001529" text-color="white">
             <MenuList :menuList="menuList"></MenuList>
         </el-menu>
     </el-scrollbar>
@@ -9,9 +9,11 @@
 <script setup lang="ts" name="Menu">
     import MenuList from '@/components/MenuList.vue';
     import useUserStore from '@/store/modules/user';
+    import { useRoute } from 'vue-router';
 
     let userStore = useUserStore();
     let menuList = userStore.routes;
+    let $route = useRoute();
 </script>
 
 <style scoped lang="scss">
