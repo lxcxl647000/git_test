@@ -1,15 +1,17 @@
 <template>
     <div class="logo" v-if="setting.showLogo">
         <img v-if="imgUrl" :src="imgUrl" alt="">
-        <p>{{ setting.title }}</p>
+        <p v-show="!layoutStore.fold">{{ setting.title }}</p>
     </div>
 </template>
 
 <script setup lang="ts">
     import { ref } from 'vue';
     import setting from '@/setting'
+    import useLayoutStore from '@/store/modules/layout';
 
     let imgUrl = ref(setting.logo);
+    let layoutStore = useLayoutStore();
 </script>
 
 <style scoped lang="scss" name="Logo">
@@ -18,7 +20,7 @@
         height: $base-menu-logo-height;
         display: flex;
         align-items: center;
-        padding: 20px;
+        padding: 10px;
 
         img {
             width: $base-menu-logo-pic-width;

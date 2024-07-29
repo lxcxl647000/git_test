@@ -18,7 +18,7 @@ export const constantRoute = [
         name: 'layout',
         redirect: '/home',
         meta: {
-            title: 'layout',
+            title: '',
             show: true,
             icon: 'House'
         },

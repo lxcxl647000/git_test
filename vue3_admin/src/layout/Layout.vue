@@ -1,16 +1,16 @@
 <template>
     <div class="layout_container">
         <!-- 左边菜单 -->
-        <div class="layout_left">
+        <div class="layout_left" :class="{ fold: layoutStore.fold ? true : false }">
             <Logo></Logo>
             <Menu></Menu>
         </div>
         <!-- 顶部导航 -->
-        <div class="layout_top">
+        <div class="layout_top" :class="{ fold: layoutStore.fold ? true : false }">
             <Tabbar></Tabbar>
         </div>
         <!-- 内容展示 -->
-        <div class="layout_display">
+        <div class="layout_display" :class="{ fold: layoutStore.fold ? true : false }">
             <Display></Display>
         </div>
     </div>
@@ -21,6 +21,9 @@
     import Menu from './menu/Menu.vue'
     import Display from './display/Display.vue';
     import Tabbar from './tabbar/Tabbar.vue';
+    import useLayoutStore from '@/store/modules/layout';
+
+    let layoutStore = useLayoutStore();
 </script>
 
 <style scoped lang="scss">
@@ -32,6 +35,11 @@
             width: $base-menu-width;
             height: 100vh;
             background: $base-menu-background;
+            transition: all 0.3s;
+
+            &.fold {
+                width: $base-menu-min-width;
+            }
         }
 
         .layout_top {
@@ -40,6 +48,12 @@
             height: $base-top-height;
             top: 0px;
             left: $base-menu-width;
+            transition: all 0.3s;
+
+            &.fold {
+                width: calc(100% - $base-menu-min-width);
+                left: $base-menu-min-width;
+            }
         }
 
         .layout_display {
@@ -51,6 +65,12 @@
             left: $base-menu-width;
             padding: 20px;
             overflow: auto;
+            transition: all 0.3s;
+
+            &.fold {
+                width: calc(100% - $base-menu-min-width);
+                left: $base-menu-min-width;
+            }
         }
     }
 </style>
