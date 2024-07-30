@@ -40,7 +40,7 @@ export const constantRoute = [
         // 数据大屏//
         path: '/screen',
         component: () => import('@/views/screen/Screen.vue'),
-        name: 'login',
+        name: 'screen',
         meta: {
             title: '数据大屏',
             show: true,

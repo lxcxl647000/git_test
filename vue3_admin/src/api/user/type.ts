@@ -17,15 +17,18 @@ export interface ILoginResponse {
 
 /**用户数据类型 */
 export interface IUserInfo {
-    userId: number,
-    avatar: string,
-    username: string,
-    password: string,
-    desc: string,
-    roles: string[],
-    buttons: string[],
-    routes: string[],
-    token: string,
+    checkUser: {
+        userId: number,
+        avatar: string,
+        username: string,
+        password: string,
+        desc: string,
+        roles: string[],
+        buttons: string[],
+        routes: string[],
+        token: string,
+    },
+    message: string
 }
 
 /**获取用户返回数据 */

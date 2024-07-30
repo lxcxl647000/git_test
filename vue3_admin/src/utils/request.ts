@@ -1,3 +1,4 @@
+import useUserStore from "@/store/modules/user";
 import axios from "axios";
 import { ElMessage } from "element-plus";
 
@@ -9,6 +10,8 @@ let request = axios.create({
 
 // 请求拦截器//
 request.interceptors.request.use((config) => {
+    // 消息头headers可以带公共信息，如token//
+    config.headers.token = useUserStore().token;
     return config;
 });
 

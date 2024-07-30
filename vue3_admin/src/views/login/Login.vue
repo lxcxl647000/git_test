@@ -31,10 +31,11 @@
     import { User, Lock } from '@element-plus/icons-vue';
     import { ElNotification } from 'element-plus';
     import { reactive, ref } from 'vue';
-    import { useRouter } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
 
     let userStore = useUserStore();
     let router = useRouter();
+    let route = useRoute();
 
     let loginData = reactive<ILogin>({
         username: 'admin',
@@ -74,7 +75,7 @@
                     message: '欢迎回来',
                     title: `Hi,${getCurrentTimeDes()}好`,
                 });
-                router.push('/');
+                router.push({ path: route.query ? (route.query.redirect as string) : '/' });
                 loading.value = false;
             } catch (error: any) {
                 ElNotification({

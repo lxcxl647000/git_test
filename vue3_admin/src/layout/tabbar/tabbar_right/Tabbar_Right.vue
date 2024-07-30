@@ -3,17 +3,17 @@
         <el-button icon="Refresh" size="default" circle @click="onRefresh"></el-button>
         <el-button icon="FullScreen" size="default" circle @click="onFullScreen"></el-button>
         <el-button icon="Setting" size="default" circle></el-button>
-        <img src="../../../../public/logo.png" alt="" style="width: 32px;height: 32px;margin: 0px 10px;">
+        <img :src="userStore.avatar" alt="" style="width: 32px;height: 32px;margin: 0px 10px; border-radius: 50%;">
         <el-dropdown>
             <span class="el-dropdown-link">
-                admin
+                {{ userStore.username }}
                 <el-icon class="el-icon--right">
                     <arrow-down />
                 </el-icon>
             </span>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item>退出登录</el-dropdown-item>
+                    <el-dropdown-item @click="onLogout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
@@ -22,8 +22,15 @@
 
 <script setup lang="ts">
     import useLayoutStore from '@/store/modules/layout';
+    import useUserStore from '@/store/modules/user';
+    import { useRoute, useRouter } from 'vue-router';
 
     let layoutStore = useLayoutStore();
+
+    let userStore = useUserStore();
+    let route = useRoute();
+    let router = useRouter();
+
     function onRefresh() {
         layoutStore.refresh = !layoutStore.refresh;
     }
@@ -36,6 +43,11 @@
         else {
             document.documentElement.requestFullscreen();
         }
+    }
+
+    function onLogout() {
+        userStore.userLogout();
+        router.push({ path: '/login', query: { redirect: route.path } });
     }
 </script>
 
