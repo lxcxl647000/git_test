@@ -1,7 +1,7 @@
 <template>
     <div class="layout_container">
         <!-- 左边菜单 -->
-        <div class="layout_left" :class="{ fold: layoutStore.fold ? true : false }">
+        <div class="layout_left">
             <Logo></Logo>
             <Menu></Menu>
         </div>
@@ -35,11 +35,6 @@
             width: $base-menu-width;
             height: 100vh;
             background: $base-menu-background;
-            transition: all 0.3s;
-
-            &.fold {
-                width: $base-menu-min-width;
-            }
         }
 
         .layout_top {
@@ -49,6 +44,7 @@
             top: 0px;
             left: $base-menu-width;
             transition: all 0.3s;
+            background: white;
 
             &.fold {
                 width: calc(100% - $base-menu-min-width);

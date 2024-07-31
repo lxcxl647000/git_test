@@ -75,7 +75,11 @@
                     message: '欢迎回来',
                     title: `Hi,${getCurrentTimeDes()}好`,
                 });
-                router.push({ path: route.query ? (route.query.redirect as string) : '/' });
+                let path = '/';
+                if (route.query && route.query.redirect) {
+                    path = route.query.redirect as string;
+                }
+                router.push({ path: path });
                 loading.value = false;
             } catch (error: any) {
                 ElNotification({

@@ -1,5 +1,5 @@
 // 通过vue-router插件实现路由配置//
-import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import { constantRoute } from "./routes";
 // 创建路由器//
 let router = createRouter({

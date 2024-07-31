@@ -6,21 +6,8 @@
 
 <script setup lang="ts" name="Home">
     import useUserStore from '@/store/modules/user';
-    import { ElNotification } from 'element-plus';
-    import { onMounted } from 'vue';
 
     let userStore = useUserStore();
-
-    onMounted(async () => {
-        try {
-            await userStore.userInfo();
-        } catch (error: any) {
-            ElNotification({
-                type: 'error',
-                message: error
-            });
-        }
-    })
 </script>
 
 <style scoped></style>

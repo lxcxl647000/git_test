@@ -8,6 +8,7 @@ import globalComponet from './index'
 import '@/styles/index.scss'
 import router from './router'
 import pinia from './store'
+import './permission'
 
 const app = createApp(App);
 app.use(ElementPlus, {
