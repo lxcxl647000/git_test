@@ -56,7 +56,6 @@
             position: fixed;
             width: calc(100% - $base-menu-width);
             height: calc(100vh - $base-top-height);
-            background: green;
             top: $base-top-height;
             left: $base-menu-width;
             padding: 20px;
