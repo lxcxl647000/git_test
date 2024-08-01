@@ -28,14 +28,14 @@ router.beforeEach(async (to, from, next) => {
     // 获取token判断是否登录//
     let token = userStore.token;
     // 获取用户名字判断是否获取用户信息//
-    let username = userStore.username;
+    let name = userStore.name;
 
     if (token) {// 已登录//
         if (to.path === '/login') {
             next({ path: '/' });
         }
         else {
-            if (username) {// 有用户信息//
+            if (name) {// 有用户信息//
                 next();
             }
             else {// 没有用户信息去获取一下//
@@ -44,8 +44,12 @@ router.beforeEach(async (to, from, next) => {
                     next();
                 } catch (error) {
                     // token过期或者本地token数据被修改导致获取不到用户信息//
-                    userStore.userLogout();
-                    next({ path: '/login', query: { redirect: to.path } });
+                    try {
+                        await userStore.userLogout();
+                        next({ path: '/login', query: { redirect: to.path } });
+                    } catch (error) {
+
+                    }
                 }
             }
         }

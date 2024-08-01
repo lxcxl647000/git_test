@@ -6,7 +6,7 @@
         <img :src="userStore.avatar" alt="" style="width: 32px;height: 32px;margin: 0px 10px; border-radius: 50%;">
         <el-dropdown>
             <span class="el-dropdown-link">
-                {{ userStore.username }}
+                {{ userStore.name }}
                 <el-icon class="el-icon--right">
                     <arrow-down />
                 </el-icon>
@@ -45,9 +45,13 @@
         }
     }
 
-    function onLogout() {
-        userStore.userLogout();
-        router.push({ path: '/login', query: { redirect: route.path } });
+    async function onLogout() {
+        try {
+            await userStore.userLogout();
+            router.push({ path: '/login', query: { redirect: route.path } });
+        } catch (error) {
+
+        }
     }
 </script>
 

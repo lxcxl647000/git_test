@@ -4,35 +4,25 @@ export interface ILogin {
     password: string,
 }
 
-export interface ILoginResponseData {
-    token?: string,
-    message?: string,
+/**返回数据 */
+export interface IResponseData {
+    code: number,
+    message: string,
+    ok: boolean,
 }
 
 /**登录返回数据 */
-export interface ILoginResponse {
-    code: number,
-    data: ILoginResponseData
-}
-
-/**用户数据类型 */
-export interface IUserInfo {
-    checkUser: {
-        userId: number,
-        avatar: string,
-        username: string,
-        password: string,
-        desc: string,
-        roles: string[],
-        buttons: string[],
-        routes: string[],
-        token: string,
-    },
-    message: string
+export interface ILoginResponseData extends IResponseData {
+    data: string,
 }
 
 /**获取用户返回数据 */
-export interface IUserInfoResponse {
-    code: number,
-    data: IUserInfo
+export interface IUserInfoResponseData extends IResponseData {
+    data: {
+        avatar: string,
+        name: string,
+        roles: string[],
+        buttons: string[],
+        routes: string[],
+    }
 }
