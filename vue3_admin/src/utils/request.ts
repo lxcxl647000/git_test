@@ -5,7 +5,7 @@ import { ElMessage } from "element-plus";
 // 创建axios实例//
 let request = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API,
-    timeout: 10000
+    timeout: 10000,
 });
 
 // 请求拦截器//

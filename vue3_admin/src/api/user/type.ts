@@ -1,14 +1,9 @@
+import type { IResponseData } from "../type";
+
 /**登录请求参数数据 */
 export interface ILogin {
     username: string,
     password: string,
-}
-
-/**返回数据 */
-export interface IResponseData {
-    code: number,
-    message: string,
-    ok: boolean,
 }
 
 /**登录返回数据 */

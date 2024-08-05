@@ -79,6 +79,15 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
     // 代理跨域//
     server: {
       proxy: {
+        // 由于提供的商品相关的api服务器有问题所以特殊处理这类api//
+        '/api/admin/product': {
+          // 获取数据的服务器地址设置//
+          target: env.VITE_SERVER_PRODUCT,
+          // 是否需要代理//
+          changeOrigin: true,
+          // 路径重写//
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
         [env.VITE_APP_BASE_API]: {
           // 获取数据的服务器地址设置//
           target: env.VITE_SERVER,
@@ -86,7 +95,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
           changeOrigin: true,
           // 路径重写//
           rewrite: (path) => path.replace(/^\/api/, ''),
-        },
+        }
       }
     }
   }
