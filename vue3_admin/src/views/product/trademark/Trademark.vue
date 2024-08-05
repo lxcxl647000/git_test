@@ -19,7 +19,7 @@
             </el-table-column>
             <el-table-column label="品牌操作" align="center">
                 <template #default="{ row }">
-                    <el-button type="primary" size="default" icon="Edit" @click="editTrademark"></el-button>
+                    <el-button type="primary" size="default" icon="Edit" @click="editTrademark(row)"></el-button>
                     <el-button type="primary" size="default" icon="Delete" @click="deleteTrademark"></el-button>
                 </template>
             </el-table-column>
@@ -36,13 +36,13 @@
             :background="true" layout="prev, pager, next, jumper, -> , sizes , total" :total="total"
             @change="getHadTrademark" />
     </el-card>
-    <EditDialog :dialogTitle="dialogTitle" :getHadTrademark="getHadTrademark"></EditDialog>
+    <TrademarkDialog :getHadTrademark="getHadTrademark"></TrademarkDialog>
 </template>
 
 <script setup lang="ts">
     import { requestHadTrademark } from '@/api/product/trademark';
-    import { onMounted, provide, ref } from 'vue';
-    import EditDialog from '@/components/EditDialog.vue';
+    import { onMounted, provide, reactive, ref } from 'vue';
+    import TrademarkDialog from '@/components/TrademarkDialog.vue';
     import type { ITrademarkRecord, ITrademarkResponseData } from '@/api/product/trademark/type';
 
     let currentPage = ref<number>(1);
@@ -51,9 +51,10 @@
     let records = ref<ITrademarkRecord[]>([]);
 
     let dialogFormVisible = ref(false);
-    let dialogTitle = ref('');
+    let trademark = reactive<ITrademarkRecord>({ tmName: '', logoUrl: '' });
 
     provide('dialogFormVisible', dialogFormVisible);
+    provide('trademark', trademark);
 
     onMounted(() => {
         getHadTrademark();
@@ -68,16 +69,13 @@
     }
 
     function addTrademark() {
-        dialogTitle.value = '添加品牌';
         dialogFormVisible.value = true;
     }
-    function editTrademark() {
-        dialogTitle.value = '编辑品牌';
+    function editTrademark(row: ITrademarkRecord) {
+        Object.assign(trademark, row);
         dialogFormVisible.value = true;
     }
     function deleteTrademark() {
-        dialogTitle.value = '删除品牌';
-        dialogFormVisible.value = true;
     }
 </script>
 

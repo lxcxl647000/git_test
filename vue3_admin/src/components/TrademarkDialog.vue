@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogFormVisible" :title=dialogTitle @close="closeDialog">
+    <el-dialog v-model="dialogFormVisible" :title=title @close="closeDialog">
         <el-form style="width: 80%;" label-width="80px">
             <el-form-item label="品牌名称">
                 <el-input placeholder="请输入品牌名称" v-model="trademark.tmName"></el-input>
@@ -23,16 +23,19 @@
 </template>
 
 <script setup lang="ts">
-    import { requestAddTrademark } from '@/api/product/trademark';
+    import { requestAddTrademark, requestEditTrademark } from '@/api/product/trademark';
     import type { ITrademarkRecord } from '@/api/product/trademark/type';
-    import { inject, reactive, toRef } from 'vue';
+    import { computed, inject, reactive, toRef } from 'vue';
     import { ElMessage, type UploadProps } from 'element-plus'
 
-    let props = defineProps(['dialogTitle', 'getHadTrademark']);
+    let props = defineProps(['getHadTrademark']);
 
     let dialogFormVisible = toRef(inject('dialogFormVisible'));
 
-    let trademark = reactive<ITrademarkRecord>({ tmName: '', logoUrl: '' });
+    let trademark = inject<ITrademarkRecord>('trademark') || reactive<ITrademarkRecord>({ tmName: '', logoUrl: '' });
+    let title = computed(() => {
+        return trademark.id ? '编辑品牌' : '添加品牌';
+    });
 
     function onCancel() {
         dialogFormVisible.value = false;
@@ -40,22 +43,26 @@
 
     function onConfirm() {
         dialogFormVisible.value = false;
-        addTrademark();
+        trademarkOperate();
     }
 
-    async function addTrademark() {
-        let result = await requestAddTrademark(trademark);
+    async function trademarkOperate() {
+        let isAdd = trademark.id ? false : true;
+        let successMsg = isAdd ? '添加品牌成功' : '修改品牌成功';
+        let failMsg = isAdd ? '添加品牌失败' : '修改品牌失败';
+        let result = isAdd ? await requestAddTrademark(trademark) : await requestEditTrademark(trademark);;
         if (result.code === 200) {
-            ElMessage.success('添加品牌成功');
+            ElMessage.success(successMsg);
             props.getHadTrademark();
         }
         else {
-            ElMessage.error('添加品牌失败');
+            ElMessage.error(failMsg);
         }
         dialogFormVisible.value = false;
     }
 
     function closeDialog() {
+        delete trademark.id;
         trademark.logoUrl = '';
         trademark.tmName = '';
     }
