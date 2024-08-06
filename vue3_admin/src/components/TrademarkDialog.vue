@@ -1,10 +1,10 @@
 <template>
     <el-dialog v-model="dialogFormVisible" :title=title @close="closeDialog">
-        <el-form style="width: 80%;" label-width="80px">
-            <el-form-item label="品牌名称">
+        <el-form style="width: 80%;" label-width="100px" :model="trademark" :rules="rules" ref="formRef">
+            <el-form-item label="品牌名称" prop="tmName">
                 <el-input placeholder="请输入品牌名称" v-model="trademark.tmName"></el-input>
             </el-form-item>
-            <el-form-item label="品牌LOGO">
+            <el-form-item label="品牌LOGO" prop="logoUrl">
                 <el-upload class="avatar-uploader" action="/api/admin/product/fileUpload"
                     :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :show-file-list="false">
                     <img v-if="trademark.logoUrl" :src="trademark.logoUrl" class="avatar" />
@@ -25,7 +25,7 @@
 <script setup lang="ts">
     import { requestAddTrademark, requestEditTrademark } from '@/api/product/trademark';
     import type { ITrademarkRecord } from '@/api/product/trademark/type';
-    import { computed, inject, reactive, toRef } from 'vue';
+    import { computed, inject, reactive, ref, toRef } from 'vue';
     import { ElMessage, type UploadProps } from 'element-plus'
 
     let props = defineProps(['getHadTrademark']);
@@ -37,13 +37,25 @@
         return trademark.id ? '编辑品牌' : '添加品牌';
     });
 
+    let rules = reactive({
+        tmName: [{ required: true, trigger: 'blur', validator: validateTmName }],
+        logoUrl: [{ required: true, validator: validateLogo }]
+    });
+
+    let formRef = ref();
+
     function onCancel() {
         dialogFormVisible.value = false;
     }
 
-    function onConfirm() {
-        dialogFormVisible.value = false;
-        trademarkOperate();
+    async function onConfirm() {
+        try {
+            await formRef.value.validate();
+            dialogFormVisible.value = false;
+            trademarkOperate();
+        } catch (error) {
+
+        }
     }
 
     async function trademarkOperate() {
@@ -65,6 +77,8 @@
         delete trademark.id;
         trademark.logoUrl = '';
         trademark.tmName = '';
+        formRef.value.clearValidate('tmName');
+        formRef.value.clearValidate('logoUrl');
     }
 
     // 上传图片之前的钩子 限制格式和大小//
@@ -83,6 +97,26 @@
     const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
         // response为上传图片请求返回的数据//
         trademark.logoUrl = response.data;
+    }
+
+    // 校验品牌名称//
+    function validateTmName(rule: any, value: any, callback: any) {
+        if (value.trim().length >= 2) {
+            callback();
+        }
+        else {
+            callback(new Error('品牌名称必须大于2位'));
+        }
+    }
+
+    // 校验品牌LOGO//
+    function validateLogo(rule: any, value: any, callback: any) {
+        if (value) {
+            callback();
+        }
+        else {
+            callback(new Error('品牌LOGO必须上传'));
+        }
     }
 </script>
 
