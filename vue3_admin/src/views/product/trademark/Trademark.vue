@@ -20,7 +20,12 @@
             <el-table-column label="品牌操作" align="center">
                 <template #default="{ row }">
                     <el-button type="primary" size="default" icon="Edit" @click="editTrademark(row)"></el-button>
-                    <el-button type="primary" size="default" icon="Delete" @click="deleteTrademark"></el-button>
+                    <el-popconfirm :title="`是否删除${row.tmName}?`" width="200px" @confirm="deleteTrademark(row.id)"
+                        icon="Delete">
+                        <template #reference>
+                            <el-button type="primary" size="default" icon="Delete"></el-button>
+                        </template>
+                    </el-popconfirm>
                 </template>
             </el-table-column>
         </el-table>
@@ -40,10 +45,11 @@
 </template>
 
 <script setup lang="ts">
-    import { requestHadTrademark } from '@/api/product/trademark';
+    import { requestDeleteTrademark, requestHadTrademark } from '@/api/product/trademark';
     import { onMounted, provide, reactive, ref } from 'vue';
     import TrademarkDialog from '@/components/TrademarkDialog.vue';
     import type { ITrademarkRecord, ITrademarkResponseData } from '@/api/product/trademark/type';
+    import { ElMessage } from 'element-plus';
 
     let currentPage = ref<number>(1);
     let pageSize = ref<number>(3);
@@ -71,11 +77,21 @@
     function addTrademark() {
         dialogFormVisible.value = true;
     }
+
     function editTrademark(row: ITrademarkRecord) {
         Object.assign(trademark, row);
         dialogFormVisible.value = true;
     }
-    function deleteTrademark() {
+
+    async function deleteTrademark(id: number) {
+        let result = await requestDeleteTrademark(id);
+        if (result.code === 200) {
+            ElMessage.success('删除品牌成功');
+            getHadTrademark();
+        }
+        else {
+            ElMessage.error('删除品牌失败');
+        }
     }
 </script>
 
