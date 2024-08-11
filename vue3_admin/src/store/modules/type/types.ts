@@ -16,5 +16,4 @@ export interface ICategoryState {
     c1_id: number | string,
     c2_id: number | string,
     c3_id: number | string,
-    attr_arr: IAttrData[]
 }

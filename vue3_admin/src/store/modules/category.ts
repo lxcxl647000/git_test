@@ -1,7 +1,6 @@
 import { requestAttr, requestC1, requestC2, requestC3, requestSaveAttr } from "@/api/product/attr";
 import { defineStore } from "pinia";
 import type { ICategoryState } from "./type/types";
-import type { IAttrData } from "@/api/product/attr/type";
 
 let useCategoryStore = defineStore('category', {
     state: (): ICategoryState => {
@@ -12,7 +11,6 @@ let useCategoryStore = defineStore('category', {
             c2_id: '',
             category3_arr: [],
             c3_id: '',
-            attr_arr: [],
         }
     },
     actions: {
@@ -42,17 +40,6 @@ let useCategoryStore = defineStore('category', {
             let result = await requestC3(this.c2_id);
             if (result.code === 200) {
                 this.category3_arr = result.data;
-                return 'ok';
-            }
-            else {
-                return Promise.reject(new Error(result.message));
-            }
-        },
-
-        async getAttr() {
-            let result = await requestAttr(this.c1_id, this.c2_id, this.c3_id);
-            if (result.code === 200) {
-                this.attr_arr = result.data;
                 return 'ok';
             }
             else {

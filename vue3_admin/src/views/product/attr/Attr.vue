@@ -6,7 +6,7 @@
                 @click="addAttr">
                 添加属性
             </el-button>
-            <el-table border style="margin: 10px 0px;" :data="categoryStore.attr_arr">
+            <el-table border style="margin: 10px 0px;" :data="attrArr">
                 <el-table-column label="序号" width="80" type="index" align="center" />
                 <el-table-column label="属性名称" width="120" prop="attrName" />
                 <el-table-column label="属性值名称">
@@ -61,11 +61,11 @@
 </template>
 
 <script setup lang="ts">
-    import { requestDelAttr, requestSaveAttr } from '@/api/product/attr';
+    import { requestAttr, requestDelAttr, requestSaveAttr } from '@/api/product/attr';
     import type { IAttrData, IAttrValue } from '@/api/product/attr/type';
     import useCategoryStore from '@/store/modules/category';
     import { ElMessage } from 'element-plus';
-    import { nextTick, onBeforeUnmount, reactive, ref } from 'vue';
+    import { nextTick, onBeforeUnmount, reactive, ref, watch } from 'vue';
 
     let categoryStore = useCategoryStore();
     // 控制属性表格和编辑添加属性的切换//
@@ -79,6 +79,17 @@
     });
     // 记录添加属性值的elinput输入框//
     let inputArr = ref<any>([]);
+    // 属性数组//
+    let attrArr = ref<IAttrData[]>([]);
+
+    // 监视仓库中第三级分类id变化时请求数据//
+    watch(() => categoryStore.c3_id, () => {
+        attrArr.value = [];
+        if (!categoryStore.c3_id) {
+            return;
+        }
+        getAttr();
+    });
 
     // 路由组件销毁时 清空仓库相关数据//
     onBeforeUnmount(() => {
@@ -114,7 +125,7 @@
         if (result.code === 200) {
             ElMessage.success(saveAttrInfo.id ? '修改成功' : '添加成功');
             scene.value = 0;
-            categoryStore.getAttr();
+            getAttr();
         }
         else {
             ElMessage.error(saveAttrInfo.id ? '修改失败' : '添加失败');
@@ -171,11 +182,21 @@
     async function confirmDelete(attrID: number) {
         let result = await requestDelAttr(attrID);
         if (result.code === 200) {
-            categoryStore.getAttr();
+            getAttr();
             ElMessage.success('删除成功');
         }
         else {
             ElMessage.error('删除失败');
+        }
+    }
+
+    async function getAttr() {
+        if (!categoryStore.c3_id) {
+            return;
+        }
+        let result = await requestAttr(categoryStore.c1_id, categoryStore.c2_id, categoryStore.c3_id);
+        if (result.code === 200) {
+            attrArr.value = result.data;
         }
     }
 </script>

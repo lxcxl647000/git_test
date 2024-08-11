@@ -16,7 +16,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="三级分类">
-                <el-select placeholder="请选择" style="width: 240px;" v-model="categoryStore.c3_id" @change="onChangeC3"
+                <el-select placeholder="请选择" style="width: 240px;" v-model="categoryStore.c3_id"
                     :disabled="scene === 0 ? false : true">
                     <el-option v-for="(item, index) in categoryStore.category3_arr" :key="item.id" :label="item.name"
                         :prop="item" :value="item.id"></el-option>
@@ -41,18 +41,13 @@
         categoryStore.c2_id = '';
         categoryStore.c3_id = '';
         categoryStore.category3_arr = [];
-        categoryStore.attr_arr = [];
         categoryStore.getC2();
     }
 
     function onChangeC2() {
         categoryStore.c3_id = '';
-        categoryStore.attr_arr = [];
         categoryStore.getC3();
 
-    }
-    function onChangeC3() {
-        categoryStore.getAttr();
     }
 </script>
 
