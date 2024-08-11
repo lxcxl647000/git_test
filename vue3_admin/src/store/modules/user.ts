@@ -1,9 +1,10 @@
 import { requestLogin, requestLogout, requestUserInfo } from "@/api/user";
-import type { ILogin, ILoginResponseData, IResponseData, IUserInfoResponseData } from "@/api/user/type";
+import type { ILogin, ILoginResponseData, IUserInfoResponseData } from "@/api/user/type";
 import { defineStore } from "pinia";
 import type { IUserState } from "./type/types";
 import { GET_TOKEN, REMOVE_TOKE, SET_TOKEN } from "@/utils/token";
 import { constantRoute } from "@/router/routes";
+import type { IResponseData } from "@/api/type";
 
 let useUserStore = defineStore('user', {
     state: (): IUserState => {
