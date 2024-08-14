@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import type { ITrademarkRecord, ITrademarkResponseData } from "./type";
+import type { ITrademarkListResponse, ITrademarkRecord, ITrademarkResponseData } from "./type";
 import type { IResponseData } from "@/api/type";
 
 enum API {
@@ -11,6 +11,8 @@ enum API {
     EDITTRADEMARK_URL = '/admin/product/baseTrademark/update',
     // 删除品牌接口//
     DELETETRADEMARK_URL = '/admin/product/baseTrademark/remove/',
+    // 获取所有品牌列表//
+    GETTRADEMARKLIST_URL = '/admin/product/baseTrademark/getTrademarkList',
 }
 
 /**获取已有品牌的接口
@@ -35,3 +37,8 @@ export const requestEditTrademark = (data: ITrademarkRecord) => request.put<any,
  * 删除品牌接口
  */
 export const requestDeleteTrademark = (id: number) => request.delete<any, IResponseData>(API.DELETETRADEMARK_URL + id);
+
+/**
+ * 获取所有品牌列表
+ */
+export const requestTrademarkList = () => request.get<any, ITrademarkListResponse>(API.GETTRADEMARKLIST_URL);

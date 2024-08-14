@@ -20,3 +20,8 @@ export interface ITrademarkRecord {
     tmName: string;
     logoUrl: string;
 }
+
+/**获取品牌列表返回数据 */
+export interface ITrademarkListResponse extends IResponseData {
+    data: ITrademarkRecord[];
+}
