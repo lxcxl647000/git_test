@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-import type { ISpuAllSaleAttrResponseData, ISpuImgResponseData, ISpuRecord, ISpuResponseData, ISpuSaleAttrResponseData } from "./type";
+import type { ISkuData, ISkuListResponsData, ISpuAllSaleAttrResponseData, ISpuImgResponseData, ISpuRecord, ISpuResponseData, ISpuSaleAttrResponseData } from "./type";
 import type { IResponseData } from "@/api/type";
 
 enum API {
@@ -15,6 +15,12 @@ enum API {
     SPUADD_URL = '/admin/product/saveSpuInfo',
     // 修改spu//
     SPUEDIT_URL = '/admin/product/updateSpuInfo',
+    // 新增sku//
+    SKUADD_URL = '/admin/product/saveSkuInfo',
+    // 获取sku列表//
+    SKULIST_URL = '/admin/product/findBySpuId/',
+    // 删除spu//
+    SPUREMOVE_URL = '/admin/product/deleteSpu/',
 }
 
 /**获取已有的spu记录 */
@@ -34,3 +40,12 @@ export const requestSpuAdd = (data: ISpuRecord) => request.post<any, IResponseDa
 
 /**修改spu */
 export const requestSpuEdit = (data: ISpuRecord) => request.post<any, IResponseData>(API.SPUEDIT_URL, data);
+
+/**新增sku */
+export const requestSkuAdd = (data: ISkuData) => request.post<any, IResponseData>(API.SKUADD_URL, data);
+
+/**获取sku列表 */
+export const requestSkuList = (spuId: number | string) => request.get<any, ISkuListResponsData>(API.SKULIST_URL + spuId);
+
+/**删除spu */
+export const requestSpuRemove = (spuId: number | string) => request.delete<any, IResponseData>(API.SPUREMOVE_URL + spuId);

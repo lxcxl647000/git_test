@@ -11,11 +11,17 @@
                 <el-table-column label="SPU描述" prop="description"></el-table-column>
                 <el-table-column label="操作">
                     <template #="{ row, $index }">
-                        <el-button type="primary" size="small" @click="addSku" icon="Plus" title="添加SKU"></el-button>
+                        <el-button type="primary" size="small" @click="addSku(row)" icon="Plus"
+                            title="添加SKU"></el-button>
                         <el-button type="warning" size="small" @click="editSpu(row)" icon="Edit"
                             title="修改SPU"></el-button>
-                        <el-button type="info" size="small" @click="" icon="InfoFilled" title="查看SKU列表"></el-button>
-                        <el-button type="danger" size="small" @click="" icon="Delete" title="删除SPU"></el-button>
+                        <el-button type="info" size="small" @click="checkSkuList(row)" icon="InfoFilled"
+                            title="查看SKU列表"></el-button>
+                        <el-popconfirm :title="`确认删除${row.spuName}?`" @confirm="spuRemove(row)" width="200px">
+                            <template #reference>
+                                <el-button type="danger" size="small" icon="Delete" title="删除SPU"></el-button>
+                            </template>
+                        </el-popconfirm>
                     </template>
                 </el-table-column>
             </el-table>
@@ -26,18 +32,31 @@
         <!-- 添加或修改spu -->
         <SpuEdit ref="spuComponent" v-show="scene === 1" @changeScene="changeScene"></SpuEdit>
         <!-- 添加sku -->
-        <SkuEdit ref="skuComponent" v-show="scene === 2"></SkuEdit>
+        <SkuEdit ref="skuComponent" v-show="scene === 2" @changeScene="changeScene"></SkuEdit>
+        <!-- 显示sku列表的对话框 -->
+        <el-dialog v-model="showSkuList" title="SKU列表">
+            <el-table :data="skuList" border>
+                <el-table-column label="sku名称" prop="skuName"></el-table-column>
+                <el-table-column label="sku价格" prop="price"></el-table-column>
+                <el-table-column label="sku重量" prop="weight"></el-table-column>
+                <el-table-column label="sku图片">
+                    <template #="{ row, $index }">
+                        <img :src="row.skuDefaultImg" alt="" style="width: 100px;">
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-dialog>
     </el-card>
-
 </template>
 
 <script setup lang="ts">
-    import { requestSpuRecords } from '@/api/product/spu';
-    import type { ISpuRecord } from '@/api/product/spu/type';
+    import { requestSkuList, requestSpuRecords, requestSpuRemove } from '@/api/product/spu';
+    import type { ISkuData, ISpuRecord } from '@/api/product/spu/type';
     import useCategoryStore from '@/store/modules/category';
-    import { nextTick, ref, watch } from 'vue';
+    import { onBeforeUnmount, ref, watch } from 'vue';
     import SpuEdit from '@/components/SpuEdit.vue';
     import SkuEdit from '@/components/SkuEdit.vue';
+    import { ElMessage } from 'element-plus';
 
     let categoryStore = useCategoryStore();
     // 0:显示已有spu 1：显示添加或修改spu 2：显示添加sku//
@@ -48,6 +67,10 @@
 
     let spuRecords = ref<ISpuRecord[]>([]);
     let spuComponent = ref();
+    let skuComponent = ref();
+
+    let showSkuList = ref(false);
+    let skuList = ref<ISkuData[]>([]);
 
     watch(() => categoryStore.c3_id, () => {
         spuRecords.value = [];
@@ -56,6 +79,11 @@
         }
         currentPage.value = 1;
         getSpuRecords();
+    });
+
+    // 路由组件销毁时 清空仓库相关数据//
+    onBeforeUnmount(() => {
+        categoryStore.$reset();
     });
 
     async function getSpuRecords(page?: number) {
@@ -74,7 +102,8 @@
         changeScene({ sc: 1 });
     }
 
-    function addSku() {
+    function addSku(row: ISpuRecord) {
+        skuComponent.value.initData(row);
         changeScene({ sc: 2 });
     }
 
@@ -82,6 +111,25 @@
     function changeScene(param: { sc: number, refresh?: boolean, page?: number }) {
         scene.value = param.sc;
         param.refresh && getSpuRecords(param.page);
+    }
+
+    async function checkSkuList(row: ISpuRecord) {
+        let result = await requestSkuList(row.id!);
+        if (result.code === 200) {
+            skuList.value = result.data;
+            showSkuList.value = true;
+        }
+    }
+
+    async function spuRemove(row: ISpuRecord) {
+        let result = await requestSpuRemove(row.id!);
+        if (result.code === 200) {
+            ElMessage.success('删除成功');
+            getSpuRecords();
+        }
+        else {
+            ElMessage.error('删除失败');
+        }
     }
 </script>
 

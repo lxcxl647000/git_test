@@ -1,4 +1,4 @@
-import { requestAttr, requestC1, requestC2, requestC3, requestSaveAttr } from "@/api/product/attr";
+import { requestC1, requestC2, requestC3 } from "@/api/product/attr";
 import { defineStore } from "pinia";
 import type { ICategoryState } from "./type/types";
 

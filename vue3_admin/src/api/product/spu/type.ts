@@ -72,3 +72,35 @@ export interface ISpuAllSaleAttr {
     id: number;
     name: string;
 }
+
+export interface ISkuData {
+    category3Id: number | string;
+    spuId: number;
+    tmId: number | string;
+    skuName: string;
+    price: number | string;
+    weight: string;
+    skuDesc: string;
+    skuAttrValueList: ISkuAttrValue[];
+    skuSaleAttrValueList: ISkuSaleAttrValue[];
+    skuDefaultImg: string;
+}
+
+export interface ISkuSaleAttrValue {
+    // 销售属性id//
+    saleAttrId: number;
+    // 销售属性值id//
+    saleAttrValueId: number;
+}
+
+export interface ISkuAttrValue {
+    // 平台属性id//
+    attrId: number;
+    // 平台属性值id//
+    valueId: number;
+}
+
+/**获取sku列表的返回数据 */
+export interface ISkuListResponsData extends IResponseData {
+    data: ISkuData[];
+}
