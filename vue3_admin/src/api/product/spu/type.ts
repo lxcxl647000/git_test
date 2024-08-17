@@ -84,6 +84,9 @@ export interface ISkuData {
     skuAttrValueList: ISkuAttrValue[];
     skuSaleAttrValueList: ISkuSaleAttrValue[];
     skuDefaultImg: string;
+    isSale?: number;
+    id?: number;
+    skuImageList?: ISpuImg[];
 }
 
 export interface ISkuSaleAttrValue {
@@ -91,6 +94,8 @@ export interface ISkuSaleAttrValue {
     saleAttrId: number;
     // 销售属性值id//
     saleAttrValueId: number;
+    // 销售属性值名称//
+    saleAttrValueName?: string;
 }
 
 export interface ISkuAttrValue {
@@ -98,6 +103,8 @@ export interface ISkuAttrValue {
     attrId: number;
     // 平台属性值id//
     valueId: number;
+    // 平台属性值名称//
+    valueName?: string
 }
 
 /**获取sku列表的返回数据 */

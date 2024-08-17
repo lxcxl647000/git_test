@@ -38,7 +38,8 @@
             </el-form>
         </el-form-item>
         <el-form-item label="图片名称">
-            <el-table border :data="imgs" ref="imgTable" @selection-change="handleSelectionChange">
+            <el-table border :data="imgs" ref="imgTable" @selection-change="handleSelectionChange"
+                @select="handleSelection">
                 <el-table-column type="selection" width="80px" align="center"></el-table-column>
                 <el-table-column label="图片">
                     <template #="{ row, $index }">
@@ -122,14 +123,14 @@
 
     async function save() {
         rebuildSkuData();
-        let result = await requestSkuAdd(skuData);
-        if (result.code === 200) {
-            ElMessage.success('添加成功');
-            changeScene(0, false);
-        }
-        else {
-            ElMessage.error('添加失败');
-        }
+            let result = await requestSkuAdd(skuData);
+            if (result.code === 200) {
+                ElMessage.success('添加成功');
+                changeScene(0, false);
+            }
+            else {
+                ElMessage.error('添加失败');
+            }
     }
 
     function rebuildSkuData() {
@@ -138,15 +139,15 @@
     }
 
     async function initData(spu: ISpuRecord) {
-        skuData.category3Id = categoryStore.c3_id;
+            skuData.category3Id = categoryStore.c3_id;
         skuData.tmId = spu.tmId;
         skuData.spuId = spu.id!;
         // 获取属性列表//
         let result = await requestAttr(categoryStore.c1_id, categoryStore.c2_id, categoryStore.c3_id);
         //  获取照片墙//
-        let imgsResult = await requestSpuImgList(spu.id!);
+        let imgsResult = await requestSpuImgList(skuData.spuId);
         // 获取该spu的销售属性列表//
-        let saleAttrResult = await requestSpuSaleAttrList(spu.id!);
+        let saleAttrResult = await requestSpuSaleAttrList(skuData.spuId);
 
         if (result.code === 200) {
             attrArr.value = result.data;
@@ -167,7 +168,20 @@
 
     function handleSelectionChange(val: ISpuImg[]) {
         if (val.length === 0) {
-            imgs.value.forEach(item => imgTable.value.toggleRowSelection(item, false));
+            skuData.skuDefaultImg = '';
+        }
+        else if (!skuData.skuDefaultImg) {
+            skuData.skuDefaultImg = val[0].imgUrl!;
+        }
+        skuData.skuImageList = val;
+    }
+
+    function handleSelection(selection: ISpuImg[], row: ISpuImg) {
+        let isSelect = selection.find(item => item.imgUrl === row.imgUrl);
+        if (isSelect && !skuData.skuDefaultImg) {// 如果没有默认图片被选中//
+            skuData.skuDefaultImg = row.imgUrl!;
+        }
+        else if (!isSelect && row.imgUrl === skuData.skuDefaultImg) {// 如果是默认图片被取消//
             skuData.skuDefaultImg = '';
         }
     }
