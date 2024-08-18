@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="12" :offset="0" :xs="0"></el-col>
             <el-col :span="12" :offset="0" :xs="24">
-                <el-form class="login_form" :model="loginData" :rules="rules" ref="loginForm">
+                <el-form class="login_form" :model="loginData" :rules="userRules" ref="loginForm">
                     <h1>Hello</h1>
                     <h2>欢迎来到后台管理</h2>
                     <el-form-item prop="username">
@@ -32,6 +32,7 @@
     import { ElNotification } from 'element-plus';
     import { reactive, ref } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
+    import useUser from '@/hooks/useUser';
 
     let userStore = useUserStore();
     let router = useRouter();
@@ -44,22 +45,7 @@
 
     let loading = ref(false);
 
-    // 规则对象属性//
-    // required 表示该字段必须校验//
-    // min 文本最小长度//
-    // max 文本最大长度//
-    // message 错误提示信息//
-    // trigger 处罚校验时机 blur失去焦点  change文本发生改变//
-    let rules = reactive({
-        username: [
-            // { required: true, message: '名字长度6到10位', min: 6, max: 10, trigger: 'change' }
-            { validator: validateUserName, trigger: 'change' }
-        ],
-        password: [
-            // { required: true, message: '密码长度至少6位', min: 6, trigger: 'change' }
-            { validator: validatePassword, trigger: 'change' }
-        ]
-    });
+    let { userRules } = useUser();
 
     let loginForm = ref();
 
@@ -90,24 +76,6 @@
             }
         } catch (error) {
 
-        }
-    }
-
-    function validateUserName(rule: any, value: any, callback: any) {
-        if (value.length < 5 || value.length > 10) {
-            callback(new Error('名字长度5到10位'));
-        }
-        else {
-            callback();
-        }
-    }
-
-    function validatePassword(rule: any, value: any, callback: any) {
-        if (value.length < 6) {
-            callback(new Error('密码长度至少6位'));
-        }
-        else {
-            callback();
         }
     }
 </script>

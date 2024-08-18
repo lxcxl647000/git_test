@@ -1,5 +1,6 @@
 import request from "@/utils/request";
-import type { ILogin, ILoginResponseData, IResponseData, IUserInfoResponseData } from "./type";
+import type { ILogin, ILoginResponseData, IUserInfoResponseData } from "./type";
+import type { IResponseData } from "../type";
 
 enum API {
     LOGIN_URL = '/admin/acl/index/login',
