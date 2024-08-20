@@ -28,3 +28,23 @@ export interface IUser {
     phone: null;
     roleName: string;
 }
+
+export interface IGetRolesResponseData extends IResponseData {
+    data: IRolesData;
+}
+
+export interface IRolesData {
+    assignRoles: IAssignRole[];
+    allRolesList: IAssignRole[];
+}
+
+export interface IAssignRole {
+    id: number;
+    roleName: string;
+    remark: null | string;
+}
+
+export interface IAssignRoleRequestData {
+    roleIdList: number[];
+    userId: number;
+}
