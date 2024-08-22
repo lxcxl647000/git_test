@@ -1,4 +1,5 @@
 import type { IResponseData } from "../../type";
+import type { IRole } from "../role/type";
 
 export interface IGetUsersResponseData extends IResponseData {
     data: IUserData;
@@ -34,14 +35,8 @@ export interface IGetRolesResponseData extends IResponseData {
 }
 
 export interface IRolesData {
-    assignRoles: IAssignRole[];
-    allRolesList: IAssignRole[];
-}
-
-export interface IAssignRole {
-    id: number;
-    roleName: string;
-    remark: null | string;
+    assignRoles: IRole[];
+    allRolesList: IRole[];
 }
 
 export interface IAssignRoleRequestData {

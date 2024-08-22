@@ -16,9 +16,9 @@ enum API {
     // 批量删除用户//
     BATCHREMOVEUSER_URL = '/admin/acl/user/batchRemove',
     // 获取用户角色数据//
-    GETROLES = '/admin/acl/user/toAssign/',
+    GETROLES_URL = '/admin/acl/user/toAssign/',
     // 分配用户角色//
-    ASSIGNROLES = '/admin/acl/user/doAssignRole',
+    ASSIGNROLES_URL = '/admin/acl/user/doAssignRole',
 }
 
 /**获取用户管理列表 */
@@ -40,8 +40,8 @@ export const requestRemoveUser = (id: number) => request.delete<any, IResponseDa
 export const requestBatchRemoveUser = (data: number[]) => request.delete<any, IResponseData>(API.BATCHREMOVEUSER_URL, { data });
 
 /**获取用户角色数据 */
-export const requestGetRoles = (adminId: number) => request.get<any, IGetRolesResponseData>(API.GETROLES + adminId);
+export const requestGetRoles = (adminId: number) => request.get<any, IGetRolesResponseData>(API.GETROLES_URL + adminId);
 
 /**分配用户角色 */
-export const requestAssignRoles = (data: IAssignRoleRequestData) => request.post<any, IResponseData>(API.ASSIGNROLES, data);
+export const requestAssignRoles = (data: IAssignRoleRequestData) => request.post<any, IResponseData>(API.ASSIGNROLES_URL, data);
 

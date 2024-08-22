@@ -95,8 +95,9 @@
 </template>
 
 <script setup lang="ts">
+    import type { IRole } from '@/api/acl/role/type';
     import { requestAddUser, requestAssignRoles, requestBatchRemoveUser, requestEditUser, requestGetRoles, requestRemoveUser, requestUserList } from '@/api/acl/user';
-    import type { IAssignRole, IAssignRoleRequestData, IUser } from '@/api/acl/user/type';
+    import type { IAssignRoleRequestData, IUser } from '@/api/acl/user/type';
     import useUser from '@/hooks/useUser';
     import useLayoutStore from '@/store/modules/layout';
     import useUserStore from '@/store/modules/user';
@@ -142,8 +143,8 @@
     let drawerRole = ref(false);
     let checkAll = ref(false);
     let isIndeterminate = ref(false);
-    let checkeRoles = ref<IAssignRole[]>([]);
-    let allRoles = ref<IAssignRole[]>([]);
+    let checkeRoles = ref<IRole[]>([]);
+    let allRoles = ref<IRole[]>([]);
 
     let searchUser = ref('');
     let selectUsers = ref<IUser[]>([]);
@@ -152,7 +153,7 @@
         getUserList();
     });
 
-    async function getUserList(page?: number, size?: number, username: string = '') {
+    async function getUserList(page?: number) {
         if (page) {
             currentPage.value = page;
         }
@@ -214,7 +215,7 @@
     }
 
     function onSearch() {
-        getUserList(currentPage.value, pageSize.value, searchUser.value);
+        getUserList(currentPage.value);
         // searchUser.value = '';
     }
 
@@ -275,7 +276,7 @@
 
     async function comfirmAssignRole() {
         let data: IAssignRoleRequestData = {
-            roleIdList: checkeRoles.value.map(item => item.id),
+            roleIdList: checkeRoles.value.map(item => item.id!),
             userId: user.id!
         };
         let result = await requestAssignRoles(data);
@@ -294,7 +295,7 @@
         isIndeterminate.value = false;
     }
 
-    function handleCheckedCitiesChange(roles: IAssignRole[]) {
+    function handleCheckedCitiesChange(roles: IRole[]) {
         let checkCount = roles.length;
         checkAll.value = checkCount === allRoles.value.length;
         isIndeterminate.value = checkCount > 0 && checkCount < allRoles.value.length;
