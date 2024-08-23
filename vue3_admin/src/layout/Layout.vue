@@ -5,13 +5,13 @@
             <Logo></Logo>
             <Menu></Menu>
         </div>
-        <!-- 顶部导航 -->
-        <div class="layout_top" :class="{ fold: layoutStore.fold ? true : false }">
-            <Tabbar></Tabbar>
-        </div>
         <!-- 内容展示 -->
         <div class="layout_display" :class="{ fold: layoutStore.fold ? true : false }">
             <Display></Display>
+        </div>
+         <!-- 顶部导航 -->
+         <div class="layout_top" :class="{ fold: layoutStore.fold ? true : false }">
+            <Tabbar></Tabbar>
         </div>
     </div>
 </template>
@@ -44,7 +44,7 @@
             top: 0px;
             left: $base-menu-width;
             transition: all 0.3s;
-            background: white;
+            // background: white;
 
             &.fold {
                 width: calc(100% - $base-menu-min-width);
@@ -61,7 +61,7 @@
             padding: 20px;
             overflow: auto;
             transition: all 0.3s;
-            background: white;
+            // background: white;
 
             &.fold {
                 width: calc(100% - $base-menu-min-width);
