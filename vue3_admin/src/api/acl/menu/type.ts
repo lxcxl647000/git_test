@@ -5,7 +5,7 @@ export interface IGetPermissionResponseData extends IResponseData {
 }
 
 export interface IPermissionData {
-    id: number;
+    id?: number;
     createTime: string;
     updateTime: string;
     pid: number;
@@ -22,4 +22,8 @@ export interface IPermissionData {
 export interface IAssignPermissionRequestData {
     permissionIdList: number[];
     roleId: number;
+}
+
+export interface IGetAllPermissionResponseData extends IResponseData {
+    data: IPermissionData[];
 }
