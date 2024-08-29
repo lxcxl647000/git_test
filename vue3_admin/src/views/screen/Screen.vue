@@ -4,7 +4,9 @@
             <div class="top">
                 <ScreenTop></ScreenTop>
             </div>
-            <div class="bottom"></div>
+            <div class="bottom">
+                <ScreenBottom></ScreenBottom>
+            </div>
         </div>
 
     </div>
@@ -12,7 +14,8 @@
 
 <script setup lang="ts">
     import { onMounted, ref } from 'vue';
-    import ScreenTop from './components/ScreenTop.vue';
+    import ScreenTop from './components/top/ScreenTop.vue';
+    import ScreenBottom from './components/bottom/ScreenBottom.vue';
 
     let screen = ref();
 
@@ -49,6 +52,10 @@
             .top {
                 width: 100%;
                 height: 40px;
+            }
+
+            .bottom{
+                margin-top: 10px;
             }
         }
     }

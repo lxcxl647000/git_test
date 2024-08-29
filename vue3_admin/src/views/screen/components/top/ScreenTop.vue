@@ -42,13 +42,13 @@
 
         .left {
             flex: 1.5;
-            background: url(../images/dataScreen-header-left-bg.png) no-repeat;
+            background: url(../../images/dataScreen-header-left-bg.png) no-repeat;
             background-size: cover;
 
             .lbt {
                 width: 135px;
                 height: 42px;
-                background: url(../images/dataScreen-header-btn-bg-l.png) no-repeat;
+                background: url(../../images/dataScreen-header-btn-bg-l.png) no-repeat;
                 background-size: cover;
                 float: right;
                 text-align: center;
@@ -62,7 +62,7 @@
             flex: 2;
             width: 100%;
             height: 74px;
-            background: url(../images/dataScreen-header-center-bg.png) no-repeat;
+            background: url(../../images/dataScreen-header-center-bg.png) no-repeat;
             background-size: cover;
             text-align: center;
             line-height: 70px;
@@ -72,7 +72,7 @@
 
         .right {
             flex: 1.5;
-            background: url(../images/dataScreen-header-right-bg.png) no-repeat;
+            background: url(../../images/dataScreen-header-right-bg.png) no-repeat;
             background-size: cover;
             display: flex;
             justify-content: space-between;
@@ -81,7 +81,7 @@
             .rbt {
                 width: 135px;
                 height: 42px;
-                background: url(../images/dataScreen-header-btn-bg-r.png) no-repeat;
+                background: url(../../images/dataScreen-header-btn-bg-r.png) no-repeat;
                 background-size: cover;
                 float: left;
                 text-align: center;
