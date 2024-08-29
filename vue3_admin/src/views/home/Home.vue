@@ -12,7 +12,6 @@
     <div class="svg">
         <SvgIcon name="welcome" width="512" height="626"></SvgIcon>
     </div>
-    <el-color-picker v-model="color" show-alpha />
 </template>
 
 <script setup lang="ts" name="Home">
