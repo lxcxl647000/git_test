@@ -1,4 +1,4 @@
-// 配置常量路由//
+/**常量路由 */
 export const constantRoute = [
     {
         // 登录//
@@ -47,6 +47,21 @@ export const constantRoute = [
             icon: 'DataBoard'
         }
     },
+    {
+        // 404//
+        path: '/404',
+        component: () => import('@/views/page_404/Page_404.vue'),
+        name: '404',
+        meta: {
+            title: '404',
+            show: false,
+            icon: 'House'
+        }
+    },
+];
+
+/**异步路由 */
+export const asyncRoute = [
     {
         // 权限管理//
         path: '/acl',
@@ -152,25 +167,16 @@ export const constantRoute = [
             }
         ]
     },
-    {
-        // 404//
-        path: '/404',
-        component: () => import('@/views/page_404/Page_404.vue'),
-        name: '404',
-        meta: {
-            title: '404',
-            show: false,
-            icon: 'House'
-        }
-    },
-    {
-        path: '/:pathMatch(.*)*',
-        redirect: '/404',
-        name: 'Any',
-        meta: {
-            title: '任意路由',
-            show: false,
-            icon: 'House'
-        }
-    },
-]
+];
+
+/**任意路由 */
+export const anyRoute = {
+    path: '/:pathMatch(.*)*',
+    redirect: '/404',
+    name: 'Any',
+    meta: {
+        title: '任意路由',
+        show: false,
+        icon: 'House'
+    }
+};

@@ -42,4 +42,5 @@ export interface IRolesData {
 export interface IAssignRoleRequestData {
     roleIdList: number[];
     userId: number;
+    username: string;
 }

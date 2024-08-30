@@ -77,7 +77,7 @@
                     <div>
                         <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate"
                             @change="handleCheckAllChange">全选</el-checkbox>
-                        <el-checkbox-group v-model="checkeRoles" @change="handleCheckedCitiesChange">
+                        <el-checkbox-group v-model="checkeRoles" @change="handleCheckedRolesChange">
                             <el-checkbox v-for="(item, index) in allRoles" :key="index" :label="item.roleName"
                                 :value="item">
                                 {{ item.roleName }}
@@ -261,7 +261,7 @@
             allRoles.value = result.data.allRolesList;
             checkeRoles.value = result.data.assignRoles;
             drawerRole.value = true;
-            handleCheckedCitiesChange(checkeRoles.value);
+            handleCheckedRolesChange(checkeRoles.value);
         }
     }
 
@@ -277,13 +277,20 @@
     async function comfirmAssignRole() {
         let data: IAssignRoleRequestData = {
             roleIdList: checkeRoles.value.map(item => item.id!),
-            userId: user.id!
+            userId: user.id!,
+            username: user.username
         };
+        let isSelf = data.username === userStore.name;
         let result = await requestAssignRoles(data);
         if (result.code === 200) {
             ElMessage.success('分配成功');
             closeRoleDrawer();
-            getUserList();
+            if (isSelf) {
+                window.location.reload();
+            }
+            else {
+                getUserList();
+            }
         }
         else {
             ElMessage.error('分配失败');
@@ -295,7 +302,7 @@
         isIndeterminate.value = false;
     }
 
-    function handleCheckedCitiesChange(roles: IRole[]) {
+    function handleCheckedRolesChange(roles: IRole[]) {
         let checkCount = roles.length;
         checkAll.value = checkCount === allRoles.value.length;
         isIndeterminate.value = checkCount > 0 && checkCount < allRoles.value.length;
