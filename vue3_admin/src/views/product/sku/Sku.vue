@@ -14,12 +14,15 @@
             <el-table-column label="操作" width="350px" fixed="right">
                 <template #="{ row, $index }">
                     <el-button :type="row.isSale === 0 ? 'success' : 'info'" size="small" @click="onSaleChange(row)"
-                        :icon="row.isSale === 0 ? 'Top' : 'Bottom'"></el-button>
-                    <el-button type="primary" size="small" @click="editSku" icon="Edit"></el-button>
-                    <el-button type="info" size="small" @click="checkSkuInfo(row)" icon="InfoFilled"></el-button>
+                        :icon="row.isSale === 0 ? 'Top' : 'Bottom'" v-btnPermission="`btn.Sku.updown`"></el-button>
+                    <el-button type="primary" size="small" @click="editSku" icon="Edit"
+                        v-btnPermission="`btn.Sku.update`"></el-button>
+                    <el-button type="info" size="small" @click="checkSkuInfo(row)" icon="InfoFilled"
+                        v-btnPermission="`btn.Sku.detail`"></el-button>
                     <el-popconfirm :title="`确认删除${row.skuName}?`" @confirm="removeSku(row)" width="200px">
                         <template #reference>
-                            <el-button type="danger" size="small" @click="" icon="Delete"></el-button>
+                            <el-button type="danger" size="small" @click="" icon="Delete"
+                                v-btnPermission="`btn.Sku.remove`"></el-button>
                         </template>
                     </el-popconfirm>
                 </template>

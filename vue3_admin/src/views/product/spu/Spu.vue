@@ -4,22 +4,23 @@
         <!-- 已有spu展示 -->
         <div v-show="scene === 0">
             <el-button type="primary" size="default" @click="editSpu(null)" icon="Plus"
-                :disabled="categoryStore.c3_id ? false : true">添加SPU</el-button>
+                :disabled="categoryStore.c3_id ? false : true" v-btnPermission="`btn.Spu.add`">添加SPU</el-button>
             <el-table border style="margin: 10px 0px;" :data="spuRecords">
                 <el-table-column label="序号" width="80px" align="center" type="index"></el-table-column>
                 <el-table-column label="SPU名称" prop="spuName"></el-table-column>
                 <el-table-column label="SPU描述" prop="description"></el-table-column>
                 <el-table-column label="操作">
                     <template #="{ row, $index }">
-                        <el-button type="primary" size="small" @click="addSku(row)" icon="Plus"
-                            title="添加SKU"></el-button>
-                        <el-button type="warning" size="small" @click="editSpu(row)" icon="Edit"
-                            title="修改SPU"></el-button>
-                        <el-button type="info" size="small" @click="checkSkuList(row)" icon="InfoFilled"
-                            title="查看SKU列表"></el-button>
+                        <el-button type="primary" size="small" @click="addSku(row)" icon="Plus" title="添加SKU"
+                            v-btnPermission="`btn.Spu.addsku`"></el-button>
+                        <el-button type="warning" size="small" @click="editSpu(row)" icon="Edit" title="修改SPU"
+                            v-btnPermission="`btn.Spu.update`"></el-button>
+                        <el-button type="info" size="small" @click="checkSkuList(row)" icon="InfoFilled" title="查看SKU列表"
+                            v-btnPermission="`btn.Spu.skus`"></el-button>
                         <el-popconfirm :title="`确认删除${row.spuName}?`" @confirm="spuRemove(row)" width="200px">
                             <template #reference>
-                                <el-button type="danger" size="small" icon="Delete" title="删除SPU"></el-button>
+                                <el-button type="danger" size="small" icon="Delete" title="删除SPU"
+                                    v-btnPermission="`btn.Spu.delete`"></el-button>
                             </template>
                         </el-popconfirm>
                     </template>

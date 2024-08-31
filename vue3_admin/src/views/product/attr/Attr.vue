@@ -3,7 +3,7 @@
     <el-card style="margin: 10px 0px;">
         <div v-show="scene === 0">
             <el-button type="primary" size="default" icon="Plus" :disabled="categoryStore.c3_id ? false : true"
-                @click="addAttr">
+                @click="addAttr" v-btnPermission="`btn.Attr.add`">
                 添加属性
             </el-button>
             <el-table border style="margin: 10px 0px;" :data="attrArr">
@@ -18,10 +18,12 @@
                 </el-table-column>
                 <el-table-column label="操作" width="120">
                     <template #="{ row }">
-                        <el-button type="primary" size="small" icon="Edit" @click="editAttr(row)"></el-button>
+                        <el-button type="primary" size="small" icon="Edit" @click="editAttr(row)"
+                            v-btnPermission="`btn.Attr.update`"></el-button>
                         <el-popconfirm :title="`确认删除${row.attrName}?`" @confirm="confirmDelete(row.id)" width="200px">
                             <template #reference>
-                                <el-button type="primary" size="small" icon="Delete"></el-button>
+                                <el-button type="primary" size="small" icon="Delete"
+                                    v-btnPermission="`btn.Attr.remove`"></el-button>
                             </template>
                         </el-popconfirm>
                     </template>

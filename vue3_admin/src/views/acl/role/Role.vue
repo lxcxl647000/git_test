@@ -12,7 +12,8 @@
         </el-form>
     </el-card>
     <el-card style="margin: 10px 0px;">
-        <el-button type="primary" size="default" @click="editRole" icon="Plus">添加角色</el-button>
+        <el-button type="primary" size="default" @click="editRole" icon="Plus"
+            v-btnPermission="`btn.Role.add`">添加角色</el-button>
         <el-table border style="margin: 10px 0px;" :data="roles">
             <el-table-column type="index" label="#" width="100px" align="center"></el-table-column>
             <el-table-column label="id" width="200px" prop="id" align="center"></el-table-column>
@@ -23,11 +24,14 @@
                 align="center"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template #="{ row, $index }">
-                    <el-button type="primary" size="small" @click="assignPermission(row)" icon="User">分配权限</el-button>
-                    <el-button type="primary" size="small" @click="editRole(row)" icon="Edit">编辑</el-button>
+                    <el-button type="primary" size="small" @click="assignPermission(row)" icon="User"
+                        v-btnPermission="`btn.Role.assgin`">分配权限</el-button>
+                    <el-button type="primary" size="small" @click="editRole(row)" icon="Edit"
+                        v-btnPermission="`btn.Role.update`">编辑</el-button>
                     <el-popconfirm :title="`确定删除${row.roleName}吗?`" @confirm="onRemoveRole(row)" width="200px">
                         <template #reference>
-                            <el-button type="primary" size="small" icon="Delete">删除</el-button>
+                            <el-button type="primary" size="small" icon="Delete"
+                                v-btnPermission="`btn.Role.remove`">删除</el-button>
                         </template>
                     </el-popconfirm>
                 </template>
@@ -214,7 +218,7 @@
     function getPermissionChecked(data: IPermissionData) {
         let selected: number[] = [];
         if (data.select && !data.children.length) {
-            selected.push(data.id);
+            selected.push(data.id!);
         }
         for (let child of data.children) {
             selected = selected.concat(getPermissionChecked(child));

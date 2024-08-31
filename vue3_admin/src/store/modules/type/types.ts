@@ -6,7 +6,8 @@ export interface IUserState {
     token: string | null,
     routes: RouteRecordRaw[],
     name: string,
-    avatar: string
+    avatar: string,
+    btns: string[]
 }
 
 export interface ICategoryState {

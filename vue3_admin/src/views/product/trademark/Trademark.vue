@@ -1,6 +1,7 @@
 <template>
     <el-card class="box-card">
-        <el-button type="primary" size="default" icon="Plus" @click="addTrademark">添加品牌</el-button>
+        <el-button type="primary" size="default" icon="Plus" @click="addTrademark"
+            v-btnPermission="`btn.Trademark.add`">添加品牌</el-button>
         <!-- 表格 
             table：
                 border可以设置表格纵向是否有边框
@@ -19,11 +20,13 @@
             </el-table-column>
             <el-table-column label="品牌操作" align="center">
                 <template #default="{ row }">
-                    <el-button type="primary" size="default" icon="Edit" @click="editTrademark(row)"></el-button>
+                    <el-button type="primary" size="default" icon="Edit" @click="editTrademark(row)"
+                        v-btnPermission="`btn.Trademark.update`"></el-button>
                     <el-popconfirm :title="`是否删除${row.tmName}?`" width="200px" @confirm="deleteTrademark(row.id)"
                         icon="Delete">
                         <template #reference>
-                            <el-button type="primary" size="default" icon="Delete"></el-button>
+                            <el-button type="primary" size="default" icon="Delete"
+                                v-btnPermission="`btn.Trademark.remove`"></el-button>
                         </template>
                     </el-popconfirm>
                 </template>

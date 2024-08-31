@@ -28,7 +28,8 @@ let useUserStore = defineStore('user', {
             token: GET_TOKEN(),
             routes: constantRoute,
             name: '',
-            avatar: ''
+            avatar: '',
+            btns: []
         }
     },
     actions: {
@@ -55,6 +56,7 @@ let useUserStore = defineStore('user', {
             if (result.code === 200) {
                 this.name = result.data.name;
                 this.avatar = result.data.avatar;
+                this.btns = result.data.buttons;
                 // 过滤异步路由//
                 let userAsyncRoute = filterAsyncRoute(cloneDeep(asyncRoute), result.data.routes);
                 this.routes = [...constantRoute, ...userAsyncRoute, anyRoute];

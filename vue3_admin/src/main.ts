@@ -11,6 +11,7 @@ import pinia from './store'
 import './permission'
 // 引入element plus暗黑模式//
 import 'element-plus/theme-chalk/dark/css-vars.css'
+import useUserStore from './store/modules/user'
 
 const app = createApp(App);
 app.use(ElementPlus, {
@@ -22,4 +23,13 @@ app.use(globalComponet);
 app.use(router);
 // 安装大仓库//
 app.use(pinia);
+let userStore = useUserStore();
+// 全局指令用于按钮权限//
+app.directive('btnPermission', {
+    mounted(el, binding) {
+        if (!userStore.btns.includes(binding.value)) {
+            el.remove();
+        }
+    }
+});
 app.mount('#app');

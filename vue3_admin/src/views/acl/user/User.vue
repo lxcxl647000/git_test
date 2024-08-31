@@ -12,9 +12,9 @@
         </el-form>
     </el-card>
     <el-card style="margin: 10px 0px;">
-        <el-button type="primary" size="default" @click="onEditUser">添加</el-button>
-        <el-button type="danger" size="default" @click="onBatchRemoveUser"
-            :disabled="selectUsers.length ? false : true">批量删除</el-button>
+        <el-button type="primary" size="default" @click="onEditUser" v-btnPermission="`btn.User.add`">添加</el-button>
+        <el-button type="danger" size="default" @click="onBatchRemoveUser" :disabled="selectUsers.length ? false : true"
+            v-btnPermission="`btn.User.remove`">批量删除</el-button>
         <el-table border style="margin: 10px 0px;" :data="userList" @selection-change="onSelectionChange">
             <el-table-column type="selection"></el-table-column>
             <el-table-column type="index" label="#" width="80px" align="center"></el-table-column>
@@ -26,11 +26,14 @@
             <el-table-column show-overflow-tooltip label="更新时间" width="150px" prop="updateTime"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template #="{ row, $index }">
-                    <el-button type="primary" size="small" @click="assignRole(row)" icon="User">分配角色</el-button>
-                    <el-button type="primary" size="small" @click="onEditUser(row)" icon="Edit">编辑</el-button>
+                    <el-button type="primary" size="small" @click="assignRole(row)" icon="User"
+                        v-btnPermission="`btn.User.assgin`">分配角色</el-button>
+                    <el-button type="primary" size="small" @click="onEditUser(row)" icon="Edit"
+                        v-btnPermission="`btn.User.update`">编辑</el-button>
                     <el-popconfirm :title="`确定删除${row.username}吗?`" @confirm="onRemoveUser(row)" width="200px">
                         <template #reference>
-                            <el-button type="primary" size="small" icon="Delete">删除</el-button>
+                            <el-button type="primary" size="small" icon="Delete"
+                                v-btnPermission="`btn.User.remove`">删除</el-button>
                         </template>
                     </el-popconfirm>
                 </template>

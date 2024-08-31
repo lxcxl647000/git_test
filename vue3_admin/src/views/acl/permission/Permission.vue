@@ -6,13 +6,14 @@
         <el-table-column label="操作">
             <template #="{ row, $index }">
                 <el-button type="primary" size="small" @click="addPermissionOrFunction(row)"
-                    :disabled="row.level === 4 ? true : false">
+                    :disabled="row.level === 4 ? true : false" v-btnPermission="`btn.Permission.add`">
                     {{ row.level === 3 ? '添加功能' : '添加菜单' }}</el-button>
                 <el-button type="primary" size="small" @click="editPermission(row)"
-                    :disabled="row.level === 1 ? true : false">编辑</el-button>
+                    :disabled="row.level === 1 ? true : false" v-btnPermission="`btn.Permission.update`">编辑</el-button>
                 <el-popconfirm :title="`确定删除${row.name}?`" width="200px" @confirm="removePermission(row)">
                     <template #reference>
-                        <el-button type="primary" size="small" :disabled="row.level === 1 ? true : false">删除</el-button>
+                        <el-button type="primary" size="small" :disabled="row.level === 1 ? true : false"
+                            v-btnPermission="`btn.Permission.remove`">删除</el-button>
                     </template>
                 </el-popconfirm>
             </template>
